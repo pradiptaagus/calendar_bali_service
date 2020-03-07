@@ -64,5 +64,5 @@ Example request with `nama` is `https://www.pengarah-site.com/api/hari-raya?nama
 #### Combination parameters
 You can make request with combination parameters. Bellow is example of request with paramaters `tanggal`, `bulan`, and `tanggal`.
 ```
-https://www.pengarah-site.com/api/hari-raya?tanggal=1&bulan=2&tahun=2020
+https://www.api.calendar-bali.pengarah-site.com/api/hari-raya?tanggal=1&bulan=2&tahun=2020
 ```
