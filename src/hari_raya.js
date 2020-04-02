@@ -13,8 +13,10 @@ router.use(function timeLog(req, res, next) {
 
 router.get('/', (req, res) => {
     if (!req.query.tanggal && !req.query.bulan && !req.query.tahun && !req.query.nama) {
-        knex.select('*').from('kalender_hari_raya')
-            .then(response => {                
+        knex.select('*')
+            .from('kalender_hari_raya')
+            .limit(3)
+            .then(response => {
                 res.json({
                     status: true,
                     data: response
@@ -24,7 +26,7 @@ router.get('/', (req, res) => {
         let dd = req.query.tanggal;
         let mm = req.query.bulan;
         let YYYY = req.query.tahun;
-        
+
         mm = checkMonthType(mm);
         date = datePrettier('' + YYYY + '-' + mm + '-' + dd + '');
 
@@ -32,6 +34,7 @@ router.get('/', (req, res) => {
             .whereRaw('day(tanggal) = ?', dd)
             .whereRaw('month(tanggal) = ?', mm)
             .whereRaw('year(tanggal) = ?', YYYY)
+            .limit(3)
             .then(response => {
                 if (response.length > 0) {
                     let data = [];
@@ -47,9 +50,9 @@ router.get('/', (req, res) => {
                     res.json({
                         status: true,
                         message: `Tanggal ${date} tidak ada hari raya`
-                    })
+                    });
                 }
-            })
+            });
     } else if (req.query.tanggal && req.query.bulan) {
         let dd = req.query.tanggal;
         let mm = req.query.bulan;
@@ -61,6 +64,7 @@ router.get('/', (req, res) => {
         knex.select('*').from('kalender_hari_raya')
             .whereRaw('day(tanggal) = ?', dd)
             .whereRaw('month(tanggal) = ?', mm)
+            .limit(3)
             .then(response => {
                 let data = [];
                 response.forEach(element => {
@@ -81,6 +85,7 @@ router.get('/', (req, res) => {
         knex.select('*').from('kalender_hari_raya')
             .whereRaw('month(tanggal) = ?', mm)
             .whereRaw('year(tanggal) = ?', YYYY)
+            .limit(3)
             .then(response => {
                 let data = [];
                 response.forEach(element => {
@@ -91,8 +96,8 @@ router.get('/', (req, res) => {
                     status: true,
                     message: result
                 });
-            })
-            
+            });
+
     } else if (req.query.tanggal && req.query.tahun) {
         let dd = req.query.tanggal;
         let YYYY = req.query.tahun;
@@ -100,6 +105,7 @@ router.get('/', (req, res) => {
         knex.select('*').from('kalender_hari_raya')
             .whereRaw('day(tanggal) = ?', dd)
             .whereRaw('year(tanggal) = ?', YYYY)
+            .limit(3)
             .then(response => {
                 let data = [];
                 response.forEach(element => {
@@ -110,12 +116,13 @@ router.get('/', (req, res) => {
                     status: true,
                     message: result
                 });
-            })
+            });
     } else if (req.query.tanggal) {
         let dd = req.query.tanggal;
 
         knex.select('*').from('kalender_hari_raya')
             .whereRaw('day(tanggal) = ?', dd)
+            .limit(3)
             .then(response => {
                 let data = [];
                 response.forEach(element => {
@@ -129,7 +136,9 @@ router.get('/', (req, res) => {
             });
     } else if (req.query.nama) {
         knex.select('*').from('kalender_hari_raya')
-            .where('nama_hari_raya', 'like', '%' + req.query.nama + '%').then(response => {
+            .where('nama_hari_raya', 'like', '%' + req.query.nama + '%')
+            .limit(3)
+            .then(response => {
                 let data = [];
                 response.forEach((element) => {
                     let date = element.tanggal;
@@ -141,7 +150,7 @@ router.get('/', (req, res) => {
                     status: true,
                     message: result
                 });
-            })
+            });
     }
 });
 
