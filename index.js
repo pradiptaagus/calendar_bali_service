@@ -12,6 +12,6 @@ app.use('/hari-raya', hari_raya);
 app.use('/dewasa', dewasa);
  
 
-app.get('/', (req, res) => res.json('tes'));
+app.get('/', (req, res) => res.send('tes'));
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
