@@ -1,10 +1,12 @@
+const dotEnv = require('dotenv').config();
+
 const knex = require('knex')({
     client: 'mysql2',
     connection: {
-        host: 'localhost',
-        user: 'admin',
-        password: 'nopass',
-        database: 'calendar_bali',
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DATABASE,
         timezone: 'UTC',
         dateStrings: true
     },
