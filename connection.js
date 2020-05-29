@@ -7,10 +7,10 @@ const knex = require('knex')({
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DATABASE,
-        timezone: 'UTC',
-        dateStrings: true
+        // timezone: 'UTC',
+        dateStrings: true,
     },
-    // debug: true
+    debug: true
 });
 
 module.exports = knex;

@@ -7,7 +7,6 @@ const checkMonthType = (monthInput) => {
     });
 
     if (isMonthName) {
-        console.log("masuk")
         monthInput = months.indexOf(capitalize(monthInput));
         monthInput += 1;
     }
