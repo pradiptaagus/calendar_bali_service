@@ -7,7 +7,9 @@ const checkMonthType = require('../helper/check_month_type');
 const capitalize = require('../helper/capitalize');
 
 router.get('/', (req, res) => {
+    console.log(req.query);
     if (!req.query.day && !req.query.month && !req.query.year && !req.query.name) {
+        console.log("masuk")
         knex.select('*')
             .from('kalender_hari_raya')
             .limit(3)
@@ -84,6 +86,36 @@ router.get('/', (req, res) => {
                 }
             });
     } 
+    // Name + Month + Year
+    else if (req.query.name && req.query.month && req.query.year) {
+        let name = req.query.name;
+        let mm = req.query.month;
+        let YYYY = req.query.year;
+        mm = checkMonthType(mm);
+
+        knex.select('*').from('kalender_hari_raya')
+            .where('nama_hari_raya', 'like', `%${name}%`)
+            .whereRaw('month(tanggal) = ?', mm)
+            .whereRaw('year(tanggal) = ?', YYYY)
+            .limit(3)
+            .then(response => {
+                if (response.length > 0) {
+                    let data = [];
+                    response.forEach(element => {
+                        data.push(element.nama_hari_raya);
+                    });
+                    res.json({
+                        status: true,
+                        message: `Hari raya ${name} bulan ${month} tahun ${YYYY} jatuh pada tanggal ${data.join(', ')}`
+                    });
+                } else {
+                    res.json({
+                        status: true,
+                        message: `Hari raya ${name} bulan ${req.query.month} tahun ${YYYY} tidak ditemukan.`
+                    });
+                }                
+            });
+    }
     // Day + Month
     else if (req.query.day && req.query.month) {
         let dd = req.query.day;

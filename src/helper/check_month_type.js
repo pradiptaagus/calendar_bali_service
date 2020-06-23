@@ -8,7 +8,7 @@ const checkMonthType = (monthInput) => {
 
     if (isMonthName) {
         monthInput = months.indexOf(capitalize(monthInput));
-        monthInput += 1;
+        monthInput;
     }
     return monthInput;
 }
